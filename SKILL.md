@@ -1,39 +1,12 @@
 ---
 name: deepresearch-docx-to-markdown
 description: "Convert ChatGPT DeepResearch Word document exports (.docx) to Obsidian-compatible Markdown. Handles headings, bold/italic, inline code, code blocks with language detection, tables, Mermaid diagrams (with special-char quoting), Office MathML→LaTeX (with operator spacing and \\text{} wrapping), citation links as [N](url), and proper Markdown escaping."
+context: fork
 ---
 
 # DOCX → Markdown Converter (ChatGPT DeepResearch)
 
 You are converting a Word document (.docx) exported by ChatGPT DeepResearch into an Obsidian-compatible Markdown file. Follow these steps carefully.
-
-## 0. Sub-agent invocation (recommended)
-
-This skill is self-contained and requires no user interaction during execution. **Delegate to a sub-agent** using the Agent tool whenever possible — this keeps the main conversation context clean and allows parallel conversion of multiple files.
-
-Sample sub-agent prompt:
-
-```
-Convert the ChatGPT DeepResearch .docx export to Obsidian-compatible Markdown.
-
-Input:  <INPUT_DOCX_PATH>
-Output: <OUTPUT_MD_PATH>
-Skill:  <SKILL_DIR>
-
-Steps:
-1. Install python-docx if missing: pip install python-docx --break-system-packages
-2. Run: python3 "<SKILL_DIR>/docx2md.py" "<INPUT_DOCX_PATH>" "<OUTPUT_MD_PATH>"
-3. Verify the output:
-   - grep for broken LaTeX (missing spaces after \neg, \geq, \sum, etc.)
-   - grep for unquoted Mermaid special chars (parentheses/braces in node labels)
-   - check that citation links use [N](url) format, not [^N] or <sup>
-   - check code blocks have language identifiers
-4. Report: file path, line count, number of citations/math/mermaid/code blocks found, and any issues.
-```
-
-When converting multiple files, launch one sub-agent per file in parallel.
-
-If the sub-agent reports issues it couldn't auto-fix, review them in the main conversation with the user.
 
 ## 1. Check for bundled conversion script
 
