@@ -2,6 +2,9 @@
 name: deepresearch-docx-to-markdown
 description: "Convert ChatGPT DeepResearch Word document exports (.docx) to Obsidian-compatible Markdown. Handles headings, bold/italic, inline code, code blocks with language detection, tables, Mermaid diagrams (with special-char quoting), Office MathML→LaTeX (with operator spacing and \\text{} wrapping), citation links as [N](url), and proper Markdown escaping."
 context: fork
+argument-hint: "[input.docx] [output.md]"
+allowed-tools: "Bash, Read, Write"
+effort: high
 ---
 
 # DOCX → Markdown Converter (ChatGPT DeepResearch)

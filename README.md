@@ -20,12 +20,13 @@ ChatGPT's DeepResearch feature produces well-structured research reports, but it
 
 ## Installation
 
-Copy the skill directory into your Claude Code skills folder, or reference it directly when invoking:
+The skill lives in `.claude/skills/deepresearch-docx-to-markdown/` inside this repository. To install it in another project, copy that directory into the target project's `.claude/skills/` folder:
 
 ```
-~/.claude/skills/deepresearch-docx-to-markdown/
-  SKILL.md      # Skill prompt with full conversion instructions
-  docx2md.py    # Python conversion script (~1550 lines)
+your-project/
+  .claude/skills/deepresearch-docx-to-markdown/
+    SKILL.md      # Skill prompt with full conversion instructions
+    docx2md.py    # Python conversion script (~1550 lines)
 ```
 
 The only external dependency is `python-docx`. When `uv` is available, the skill runs the script in an isolated environment via `uv run --with python-docx` — no global packages are modified. It falls back to `pip` otherwise:
@@ -138,8 +139,11 @@ A research report on AI agents for model querying and modification in design, pr
 
 ```
 deepresearch-docx-to-markdown-skill/
-  SKILL.md                  # Claude Code skill definition
-  docx2md.py                # Python conversion script
+  .claude/
+    skills/
+      deepresearch-docx-to-markdown/
+        SKILL.md            # Claude Code skill definition
+        docx2md.py          # Python conversion script
   README.md                 # This file
   benchmarks/
     *.docx                  # Original DeepResearch exports
