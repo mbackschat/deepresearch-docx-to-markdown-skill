@@ -57,6 +57,33 @@ Each invocation will:
 2. Verify the output for common issues (broken LaTeX, unquoted Mermaid chars, citation format)
 3. Report file stats: line count, number of citations, math blocks, code blocks, and any issues found
 
+## Initial prompt
+
+This skill was bootstrapped from a single natural-language prompt describing the desired conversion behavior:
+
+> Convert this Word document to a Markdown file with the same content, make sure that all the links work! (Note: this Word document was exported by ChatGPT DeepResearch.)
+>
+> **Formatting requirements:**
+> - All paragraphs properly separated
+> - Lists properly converted (bullet, alphabetical, numbered)
+> - Multiple code lines (e.g. Consolas font) converted to code blocks with correct language selection and original indentation
+> - Inline mono-font words converted to `` `code` `` spans
+> - Headline levels recognized (same font family, different sizes, e.g. Aptos)
+> - Bold and other font styles detected
+> - Tables, images, and all other formatting preserved
+>
+> **Mermaid diagrams:**
+> Detect Mermaid diagrams that may start only with the diagram type (e.g. `sequenceDiagram`, `flowchart`). Round brackets `()` define stadium/rounded nodes in Mermaid, so they break edge and node labels when used literally — quote them.
+>
+> **Markdown escaping:**
+> Properly escape characters like `<Name>` that would break rendering.
+>
+> **Citations / bibliography:**
+> The document has a bibliography section at the end with numbered web links. The same numbers (e.g. `[1]`) appear inline with direct URLs. Convert these so they work in Obsidian — clicking a link must open the web page. `[[1]](url)` does **not** work (it navigates to a non-existent page "1"). Footnotes (`[^N]`) only render as clickable in Reading mode, not Live Preview. Use `[N](url)` instead — a small clickable number that opens the URL directly.
+>
+> **Math (LaTeX):**
+> Convert inline and block-level math so Obsidian recognizes it as LaTeX. Pay special attention to variables with hats, Greek letters, upper/lower indices. Note that `%` can break rendering (e.g. `$CI_{95%}$`).
+
 ## How it works
 
 The conversion pipeline has four components:
