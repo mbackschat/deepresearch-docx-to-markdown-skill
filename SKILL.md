@@ -20,13 +20,20 @@ Where `<SKILL_DIR>` is the directory containing this SKILL.md (resolve it from t
 
 If the script exists, attempt to run it. If it fails (e.g. missing dependency, Python version issue), recreate it from the specifications in the review sections below. The script requires only `python-docx` and standard library modules (`zipfile`, `xml.etree.ElementTree`, `re`, `pathlib`, `os`, `sys`).
 
-**Install python-docx if missing:**
+**Install python-docx if missing (isolated via uv):**
 ```bash
-pip install python-docx --break-system-packages 2>/dev/null || pip install python-docx
+uv pip install python-docx --system 2>/dev/null || pip install python-docx --break-system-packages 2>/dev/null || pip install python-docx
 ```
+
+Prefer `uv` when available — it resolves faster and avoids polluting the global environment. Fall back to `pip` otherwise.
 
 ## 2. Run the conversion
 
+```bash
+uv run --with python-docx python3 "<SKILL_DIR>/docx2md.py" "<INPUT_DOCX>" "<OUTPUT_MD>"
+```
+
+If `uv` is not available, fall back to:
 ```bash
 python3 "<SKILL_DIR>/docx2md.py" "<INPUT_DOCX>" "<OUTPUT_MD>"
 ```

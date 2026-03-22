@@ -26,9 +26,13 @@ Copy the skill directory into your Claude Code skills folder, or reference it di
   docx2md.py    # Python conversion script (~1550 lines)
 ```
 
-The only external dependency is `python-docx`:
+The only external dependency is `python-docx`. When `uv` is available, the skill runs the script in an isolated environment via `uv run --with python-docx` — no global packages are modified. It falls back to `pip` otherwise:
 
 ```bash
+# Preferred (isolated, no system pollution)
+uv run --with python-docx python3 docx2md.py input.docx output.md
+
+# Fallback
 pip install python-docx
 ```
 
