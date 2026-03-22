@@ -46,12 +46,12 @@ Or invoke the skill explicitly:
 Use the deepresearch-docx-to-markdown skill to convert /path/to/report.docx
 ```
 
-The skill will:
+The skill uses `context: fork` in its frontmatter, so Claude Code automatically runs it in an isolated sub-agent — keeping your main conversation context clean. For multiple files, Claude launches parallel sub-agents (one per file).
+
+Each invocation will:
 1. Run `docx2md.py` on the input file
 2. Verify the output for common issues (broken LaTeX, unquoted Mermaid chars, citation format)
 3. Report file stats: line count, number of citations, math blocks, code blocks, and any issues found
-
-For multiple files, the skill launches parallel sub-agents — one per file.
 
 ## How it works
 
