@@ -247,10 +247,10 @@ Aufgabe:
 <...>
 
 Lösung A:
-`<code A>`
+<code A>
 
 Lösung B:
-`<code B>`
+<code B>
 
 Bewertungskriterien (in dieser Reihenfolge):
 1) Korrektheit bzgl. Anforderungen (wenn Tests/Specs vorhanden: priorisieren)

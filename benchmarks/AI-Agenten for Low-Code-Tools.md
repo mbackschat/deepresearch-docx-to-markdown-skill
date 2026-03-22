@@ -7,9 +7,9 @@
 Der Stand der Technik hat sich 2024–2026 spürbar von „Chatbots *über* Modelle“ hin zu „Agenten *mit Werkzeugzugriff* auf Modelle“ verschoben. Der wichtigste Trend ist dabei die Standardisierung/Produktisierung von Tool-Zugriffen über **MCP (Model Context Protocol)**: Figma stellt einen **Figma MCP Server** bereit (remote und desktop), der strukturierte Design‑Kontexte, Metadaten und ausgewählte Schreiboperationen (z. B. Code‑Connect‑Mappings, Diagramm‑Generierung) als Tools anbietet. [1](https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/) Parallel dazu wird MCP in Agent‑Plattformen „first class“ (z. B. in OpenAI[2](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-dx-manage.html)‑Dokumentation: „Connectors and MCP servers“; tool calling und Agent‑SDK‑Traces). [3](https://developers.openai.com/api/docs/guides/tools-connectors-mcp/)
 
 Für **modellbasierte Low‑Code‑Plattformen** ist besonders relevant, dass mehrere Anbieter inzwischen **programmatische Schreibpfade** in ihre Modell‑Stacks bringen:
- *Mendix* *bietet mit Platform+Model SDKs explizit „Read/Write“ auf Metamodel‑Elemente, inklusive Working Copies und Commit ins Repository – mit dem klaren Hinweis, dass man Modelle auch invalid machen kann.** *[4](https://docs.mendix.com/apidocs-mxsdk/mxsdk/sdk-intro/)* **Zusätzlich integriert Mendix „Maia Make“ als In‑IDE‑AI und erwähnt ausdrücklich einen* *MCP Client, der Maia mit beliebigen MCP‑Servern verbinden kann.** *[5](https://www.mendix.com/blog/mendix-release-11-8/)
+ **Mendix** bietet mit Platform+Model SDKs explizit „Read/Write” auf Metamodel‑Elemente, inklusive Working Copies und Commit ins Repository – mit dem klaren Hinweis, dass man Modelle auch invalid machen kann. [4](https://docs.mendix.com/apidocs-mxsdk/mxsdk/sdk-intro/) Zusätzlich integriert Mendix „Maia Make” als In‑IDE‑AI und erwähnt ausdrücklich einen **MCP Client**, der Maia mit beliebigen MCP‑Servern verbinden kann. [5](https://www.mendix.com/blog/mendix-release-11-8/)
  **Salesforce** behandelt Agenten selbst als **Metadata‑Komposition** (AiAuthoringBundle, Bot/BotVersion, GenAiPlannerBundle, GenAiFunction …) und liefert mit **Agentforce DX** CLI/VS‑Code‑Workflows (Agent Spec YAML, Aktivieren/Deaktivieren). [6](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-dx-metadata.html)
- *Camunda* *bietet für Modell‑Artefakte (BPMN/DMN/Forms) eine* *Web Modeler REST API* *(JWT, Rate Limit in SaaS) sowie „Play mode“ zur Validierung innerhalb des Modelers; gleichzeitig wird „zbctl“ als offizieller CLI‑Pfad ab 8.6 faktisch zurückgestuft zugunsten eines vereinheitlichten REST‑API‑Pfads.** *[7](https://docs.camunda.io/docs/apis-tools/web-modeler-api/overview/)
+ **Camunda** bietet für Modell‑Artefakte (BPMN/DMN/Forms) eine **Web Modeler REST API** (JWT, Rate Limit in SaaS) sowie „Play mode” zur Validierung innerhalb des Modelers; gleichzeitig wird „zbctl” als offizieller CLI‑Pfad ab 8.6 faktisch zurückgestuft zugunsten eines vereinheitlichten REST‑API‑Pfads. [7](https://docs.camunda.io/docs/apis-tools/web-modeler-api/overview/)
  **Figma** ergänzt neben MCP auch REST‑Schreibendpunkte für Teilmodelle wie **Variables** (bulk create/update/delete in definierter Reihenfolge) und **Dev Resources**. [8](https://developers.figma.com/docs/rest-api/variables-endpoints/)
 
 Für eure A12‑Plattform (modellbasierte App‑Entwicklung) lassen sich daraus drei robuste Architektur‑Optionen ableiten:
@@ -86,7 +86,6 @@ curl -X POST "https://api.figma.com/v1/files/<FILE_KEY>/variables" \
       { "action": "CREATE", "name": "Example variable collection" }
     ]
   }'
-```json
 {
   "variableCollections": [
     { "action": "CREATE", "name": "Example variable collection" }
@@ -110,7 +109,7 @@ curl -X POST "https://api.figma.com/v1/files/<FILE_KEY>/variables" \
 
 zbctl ist als CLI dokumentiert für Deploy/Status/Instanzen. [41](https://unsupported.docs.camunda.io/8.5/docs/apis-tools/cli-client/) Gleichzeitig empfiehlt Camunda strategisch den Shift zur REST‑API; zbctl wird ab 8.6 nur community‑maintained weitergeführt. [42](https://camunda.com/blog/2024/09/deprecating-zbctl-and-go-clients/)
 
-```bash
+```
 # Deploy BPMN
 zbctl deploy resource order-process.bpmn
 
@@ -128,7 +127,7 @@ Für die Validierung in der Modellierungsumgebung existiert „Play mode“ als 
 
 Agentforce DX behandelt Agenten als versionierbares Source‑Bundle (AiAuthoringBundle + .agent), generiert werden kann ein YAML‑Agent‑Spec, dessen Topics LLM‑generiert sind. [43](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-dx-metadata.html)
 
-```bash
+```
 # (Beispiel) Agent Spec generieren (interaktiv; YAML entsteht in specs/)
 sf agent generate agent-spec
 
@@ -181,9 +180,9 @@ Die SDK‑Einführung macht klar, dass dies „full read‑write access“ ist u
 
 
 **Praktische Beobachtung aus dem Markt:**
-*Figma liefert MCP als Server‑Produkt (remote/desktop) mit konkreten Tools.** *[10](https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/)
- Mendix integriert MCP explizit als Client‑Fähigkeit in „Maia Make“. [5](https://www.mendix.com/blog/mendix-release-11-8/)
-* OpenAI dokumentiert MCP‑Server/Connectors als Tools in der Responses‑/Agent‑Toolchain. [47](https://developers.openai.com/api/docs/guides/tools-connectors-mcp/)
+- **Figma** liefert MCP als Server‑Produkt (remote/desktop) mit konkreten Tools. [10](https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/)
+- **Mendix** integriert MCP explizit als Client‑Fähigkeit in „Maia Make”. [5](https://www.mendix.com/blog/mendix-release-11-8/)
+- **OpenAI** dokumentiert MCP‑Server/Connectors als Tools in der Responses‑/Agent‑Toolchain. [47](https://developers.openai.com/api/docs/guides/tools-connectors-mcp/)
 
 **Warum MCP für Modell‑Systeme attraktiv ist:** MCP zwingt (wenn gut implementiert) zu einem **Tool‑Katalog** mit klaren Inputs/Outputs und kann dadurch ein *Policy‑Durchsetzungspunkt* werden. Der zentrale Architekturpunkt ist: Das LLM darf **nicht** „freies Schreiben“ in eure Modelldatenbank, sondern ruft **domänenspezifische Modell‑Commands** auf (create entity, rename attribute, move node, …), die serverseitig validieren und auditiert werden.
 
@@ -202,9 +201,10 @@ SDKs sind besonders geeignet, wenn ihr **komplexe Invarianten** habt (Referenzen
 ### CLI-basierte Workflows (Terminal-first, agent-friendly)
 
 
-CLI ist für agentische Systeme oft der schnellste Integrationspfad, weil „Tool = Kommando“ und Output/Exit Codes gut maschinenlesbar sind. Beispiele: * Camunda: zbctl (auch wenn strategisch zurückgefahren). [16](https://unsupported.docs.camunda.io/8.5/docs/apis-tools/cli-client/)
-*Salesforce: sf**‑CLI und Agentforce‑Plugin (Command Specs sind in Plugin‑Repo dokumentiert).** *[51](https://github.com/salesforcecli/plugin-agent)
- Mendix: mx merge als Merge‑Driver für .mpr, mit definierten Return Codes und anschließender Konfliktlösung in Studio Pro. [52](https://docs.mendix.com/refguide/mx-command-line-tool/merge/)
+CLI ist für agentische Systeme oft der schnellste Integrationspfad, weil „Tool = Kommando” und Output/Exit Codes gut maschinenlesbar sind. Beispiele:
+- **Camunda**: zbctl (auch wenn strategisch zurückgefahren). [16](https://unsupported.docs.camunda.io/8.5/docs/apis-tools/cli-client/)
+- **Salesforce**: sf‑CLI und Agentforce‑Plugin (Command Specs sind in Plugin‑Repo dokumentiert). [51](https://github.com/salesforcecli/plugin-agent)
+- **Mendix**: mx merge als Merge‑Driver für .mpr, mit definierten Return Codes und anschließender Konfliktlösung in Studio Pro. [52](https://docs.mendix.com/refguide/mx-command-line-tool/merge/)
 
 ### Git-basierte „Model as Code“ und GitOps
 
@@ -217,9 +217,9 @@ Für proprietäre/binary Modelle (klassisch: Mendix .mpr) braucht ihr domain‑a
 
 RAG ist primär ein **Read‑Amplifier**: Modelle/Docs/Logs werden indiziert, Agent holt Kontext nach. Das NeurIPS‑Paper zu Retrieval‑Augmented Generation begründet den Nutzen: Zugriff auf „explicit non‑parametric memory“ verbessert Faktizität/Provenienzfähigkeit gegenüber rein parametrischem Wissen. [56](https://proceedings.neurips.cc/paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf)
 Für Modell‑Artefakte bedeutet das praktisch:
-*Serialisierung von Graph‑Strukturen (z. B. „sparse XML“, JSON‑AST, BPMN element inventory),*
- Chunking nach Subgraphen/Komponenten,
-* Retrieval plus Tool‑Calls, um Änderungen zu planen.
+- Serialisierung von Graph‑Strukturen (z. B. „sparse XML“, JSON‑AST, BPMN element inventory),
+- Chunking nach Subgraphen/Komponenten,
+- Retrieval plus Tool‑Calls, um Änderungen zu planen.
 
 ### Vergleichstabelle Integrationsmuster
 
@@ -249,10 +249,10 @@ Für Modell‑Artefakte bedeutet das praktisch:
 **MCP Auth:** Der MCP Authorization‑Standard fordert für OAuth‑basierte Remote Server die Implementierung von **RFC 8707 Resource Indicators**, um Token an die intendierte Audience/Ressource zu binden. [58](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization) Das ist für „Agenten mit Schreibrechten“ zentral, weil sonst Token‑Misuse/Phishing‑Klassen möglich sind.
 
 **Real-World Risiko:** Berichte über MCP‑Server‑Ökosystem‑Probleme (z. B. Sicherheitslücken in Git‑MCP‑Servern) zeigen, dass „Tool‑Access“ die Angriffsfläche real erweitert. [63](https://www.techradar.com/pro/security/anthropics-official-git-mcp-server-had-some-worrying-security-flaws-this-is-what-happened-next) Für A12 sollte daraus folgen:
-*konsequente* *deny‑by‑default* *Tool‑Scopes,*
- serverseitige **Policy Engine** (RBAC/ABAC pro Modelloperation),
- *sandboxed execution* *für CLI/Code‑Tools,*
- Secrets nie im Prompt, nur im Tool‑Runtime.
+- konsequente *deny‑by‑default* Tool‑Scopes,
+- serverseitige **Policy Engine** (RBAC/ABAC pro Modelloperation),
+- *sandboxed execution* für CLI/Code‑Tools,
+- Secrets nie im Prompt, nur im Tool‑Runtime.
 
 ### Transaktionale Garantien und Rollback
 
@@ -363,8 +363,8 @@ sequenceDiagram
 
 
 **Trade-offs:**
-*Pro: Sehr gute Governance, tool‑level RBAC, einheitliche Observability; reduziert Prompt‑/Glue‑Komplexität.*
- Contra: MCP/Auth‑Komplexität (OAuth + Resource Indicators), Tool‑Design ist aufwendig. [58](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization)
+- **Pro:** Sehr gute Governance, tool‑level RBAC, einheitliche Observability; reduziert Prompt‑/Glue‑Komplexität.
+- **Contra:** MCP/Auth‑Komplexität (OAuth + Resource Indicators), Tool‑Design ist aufwendig. [58](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization)
 
 ### Option: A12 GitOps „Model as Code“ mit Agent in Branch/PR
 
@@ -389,8 +389,8 @@ flowchart TD
 **Warum SOTA:** Salesforce/Agentforce DX und klassische Metadata‑Workflows sind genau in diese Richtung gebaut (Agenten als versionierbare Artefakte). [43](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-dx-metadata.html) GitOps‑Prinzipien sind etabliert (declarative, versioned state). [54](https://www.cncf.io/blog/2022/08/10/add-gitops-without-throwing-out-your-ci-tools/)
 
 **Trade-offs:**
-*Pro: Maximale Auditability/Review, gute Rollback Story (revert), skalierbar.*
- Contra: Für proprietäre/binary Modelle braucht ihr Merge‑Tooling (Mendix zeigt den Aufwand). [55](https://docs.mendix.com/refguide/mx-command-line-tool/merge/)
+- **Pro:** Maximale Auditability/Review, gute Rollback Story (revert), skalierbar.
+- **Contra:** Für proprietäre/binary Modelle braucht ihr Merge‑Tooling (Mendix zeigt den Aufwand). [55](https://docs.mendix.com/refguide/mx-command-line-tool/merge/)
 
 ### Option: A12 In-Modeler Copilot mit serverseitigem Commit und Validator
 
@@ -423,15 +423,15 @@ sequenceDiagram
 **Warum SOTA:** Mendix beschreibt Maia als AI‑Assistenz in Studio Pro und betont, dass Maia sogar App‑Teile generieren kann; Camunda beschreibt Copilot/Play‑basierte Validierung. [78](https://docs.mendix.com/refguide/mendix-ai-assistance/)
 
 **Trade-offs:**
-*Pro: Beste UX für exploratives Modellieren, weniger Kontextverlust, gute „Human-in-the-loop“‑Kontrolle.*
- Contra: Modeler‑Integration/Plugin‑API muss stabil sein; Camunda warnt z. B., dass Plugin API nicht stabil ist. [79](https://docs.camunda.io/docs/components/modeler/desktop-modeler/plugins/)
+- **Pro:** Beste UX für exploratives Modellieren, weniger Kontextverlust, gute „Human-in-the-loop“‑Kontrolle.
+- **Contra:** Modeler‑Integration/Plugin‑API muss stabil sein; Camunda warnt z. B., dass Plugin API nicht stabil ist. [79](https://docs.camunda.io/docs/components/modeler/desktop-modeler/plugins/)
 
 ### Minimaler CLI+JSON Baustein für A12 (agent-driven query/modify)
 
 
 Ein pragmatischer Start (auch als Fallback für alle Optionen):
 
-```sql
+```bash
 # Query: alle Entities mit Attributen
 a12 model query --format json \
   --select 'entities[*].{name:name, attributes:attributes[*].name}' > entities.json
