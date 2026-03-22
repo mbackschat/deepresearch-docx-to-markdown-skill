@@ -1,5 +1,7 @@
 # DeepResearch DOCX to Markdown — Claude Code Skill
 
+![Built with Claude Code](https://img.shields.io/badge/Built_with-Claude_Code-orange?logo=claude)
+
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that converts ChatGPT DeepResearch Word document exports (`.docx`) into clean, Obsidian-compatible Markdown.
 
 ## What it does
