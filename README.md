@@ -84,6 +84,10 @@ This skill was bootstrapped from a single natural-language prompt describing the
 > **Math (LaTeX):**
 > Convert inline and block-level math so Obsidian recognizes it as LaTeX. Pay special attention to variables with hats, Greek letters, upper/lower indices. Note that `%` can break rendering (e.g. `$CI_{95%}$`).
 
+After the initial conversion worked, a follow-up prompt turned it into a reusable Claude Code skill:
+
+> Create me a Skill to automate this conversion. Use my prompt and enrich as you recommend. Make the skill to be used for ChatGPT DeepResearch Word documents, so it's OK to make special assumptions. Check which of the generated scripts can be bundled with the skill, so that future invocations don't have to create them. But they must be robust and the skill might decide if the scripts actually work still, and if not then just recreate them.
+
 ## How it works
 
 The conversion pipeline has four components:
